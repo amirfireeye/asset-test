@@ -75,7 +75,7 @@ class PipelineStack(core.Stack):
             environment=dict(privileged=True),
             install_commands=[
                 "pip install poetry",
-                "npm install -g aws-cdk@1.74.0",
+                "npm install -g aws-cdk@1.73.0",
                 "DOCKERHUB_USERNAME=`aws secretsmanager get-secret-value --secret-id asset-test --query SecretString --output text | jq -r .docker_username`",
                 "DOCKERHUB_PASSWORD=`aws secretsmanager get-secret-value --secret-id asset-test --query SecretString --output text | jq -r .docker_password`",
                 "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}",
