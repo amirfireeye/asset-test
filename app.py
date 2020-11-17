@@ -55,7 +55,7 @@ class PipelineStack(core.Stack):
             source_artifact=source_artifact,
             cloud_assembly_artifact=cloud_assembly_artifact,
             environment=dict(privileged=True),
-            install_commands=["pip install poetry"],
+            install_commands=["pip install poetry", "npm install -g aws-cdk@1.74.0"],
             synth_command="poetry install && poetry run cdk synth && cat cdk.out/assembly-*/*.assets.json",
         )
 
