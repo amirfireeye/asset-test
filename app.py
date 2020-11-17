@@ -6,6 +6,7 @@ from aws_cdk import (
     pipelines,
     aws_codepipeline as codepipeline,
     aws_codepipeline_actions as codepipeline_actions,
+    aws_iam as iam,
 )
 
 
@@ -55,8 +56,25 @@ class PipelineStack(core.Stack):
             source_artifact=source_artifact,
             cloud_assembly_artifact=cloud_assembly_artifact,
             environment=dict(privileged=True),
-            install_commands=["pip install poetry", "npm install -g aws-cdk@1.74.0"],
+            install_commands=[
+                "pip install poetry",
+                "npm install -g aws-cdk@1.74.0",
+                "DOCKERHUB_USERNAME=`aws secretsmanager get-secret-value --secret-id asset-test --query SecretString --output text | jq -r .docker_username`",
+                "DOCKERHUB_PASSWORD=`aws secretsmanager get-secret-value --secret-id asset-test --query SecretString --output text | jq -r .docker_password`",
+                "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}",
+            ],
             synth_command="poetry install && poetry run cdk synth && cat cdk.out/assembly-*/*.assets.json",
+            role_policy_statements=[
+                # for docker secret
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
+                    actions=[
+                        "secretsmanager:ListSecrets",
+                        "secretsmanager:GetSecretValue"
+                    ],
+                    resources=["*"]
+                ),
+            ]
         )
 
         pipeline = pipelines.CdkPipeline(
