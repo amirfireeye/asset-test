@@ -1,3 +1,4 @@
+import hashlib
 import os
 
 from aws_cdk import (
@@ -22,7 +23,8 @@ class BaseStack(core.Stack):
                 bundling={
                     "image": _lambda.Runtime.PYTHON_3_8.bundling_docker_image,
                     "command": ["bash",  "-c", "cp -r /asset-input/* /asset-output/"],
-                }
+                },
+                source_hash=hashlib.sha256(b"hello").hexdigest(),
             ),
             handler="hello.world",
             runtime=_lambda.Runtime.PYTHON_3_8,
@@ -36,7 +38,8 @@ class BaseStack(core.Stack):
                 bundling={
                     "image": _lambda.Runtime.PYTHON_3_8.bundling_docker_image,
                     "command": ["bash",  "-c", "cp -r /asset-input/* /asset-output/ && touch /asset-output/foo.py"],
-                }
+                },
+                source_hash=hashlib.sha256(b"world").hexdigest(),
             ),
             handler="hello.world",
             runtime=_lambda.Runtime.PYTHON_3_8,
