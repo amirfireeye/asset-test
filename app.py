@@ -48,7 +48,7 @@ class PipelineStack(core.Stack):
             oauth_token=core.SecretValue.secrets_manager(secret_id="asset-test", json_field="github_token"),  # TODO
             owner="amirfireeye",
             repo="asset-test",
-            branch="main",
+            branch="master",
         )
 
         synth_action = pipelines.SimpleSynthAction(
