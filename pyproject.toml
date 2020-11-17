@@ -5,7 +5,7 @@ description = ""
 authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8"
 "aws-cdk.core" = "^1.74.0"
 "aws-cdk.pipelines" = "^1.74.0"
 
