@@ -24,10 +24,10 @@ class BaseStack(core.Stack):
                     "image": _lambda.Runtime.PYTHON_3_8.bundling_docker_image,
                     "command": ["bash",  "-c", "cp -r /asset-input/* /asset-output/"],
                 },
-                source_hash=hashlib.sha256(b"hello").hexdigest(),
+                source_hash=hashlib.sha256(b"hello2").hexdigest(),
             ),
             handler="hello.world",
-            runtime=_lambda.Runtime.PYTHON_3_8,
+            runtime=_lambda.Runtime.PYTHON_3_7,
         )
 
         _lambda.Function(
@@ -39,10 +39,10 @@ class BaseStack(core.Stack):
                     "image": _lambda.Runtime.PYTHON_3_8.bundling_docker_image,
                     "command": ["bash",  "-c", "cp -r /asset-input/* /asset-output/ && touch /asset-output/foo.py"],
                 },
-                source_hash=hashlib.sha256(b"world").hexdigest(),
+                source_hash=hashlib.sha256(b"world2").hexdigest(),
             ),
             handler="hello.world",
-            runtime=_lambda.Runtime.PYTHON_3_8,
+            runtime=_lambda.Runtime.PYTHON_3_7,
         )
 
 
