@@ -28,6 +28,20 @@ class BaseStack(core.Stack):
             runtime=_lambda.Runtime.PYTHON_3_8,
         )
 
+        _lambda.Function(
+            self,
+            "world",
+            code=_lambda.Code.from_asset(
+                path="code",
+                bundling={
+                    "image": _lambda.Runtime.PYTHON_3_8.bundling_docker_image,
+                    "command": ["bash",  "-c", "cp -r /asset-input/* /asset-output/ && touch /asset-output/foo.py"],
+                }
+            ),
+            handler="hello.world",
+            runtime=_lambda.Runtime.PYTHON_3_8,
+        )
+
 
 class BaseStage(core.Stage):
     def __init__(self, scope: core.Construct, id: str, **kwargs):
